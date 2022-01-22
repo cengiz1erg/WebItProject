@@ -1,0 +1,1 @@
+> cross-site request forgery: at the server-side need to store the session id in database or in memory 

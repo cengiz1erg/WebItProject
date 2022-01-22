@@ -1,9 +1,14 @@
+@using Microsoft.AspNetCore.Identity
+@using WebItProject.Models.Identity
+@inject SignInManager<ApplicationUser> signInManager
+@inject UserManager<ApplicationUser> userManager
+
 <header class="header-one sticky-header">
     <div class="header-navigation">
-            <div class="container-fluid d-flex align-items-center justify-content-between container-1470">
+        <div class="container-fluid d-flex align-items-center justify-content-between container-1470">
             <div class="header-left">
                 <div class="site-logo">
-                    <a href="index.html"><img src="~/user-assets/img/logo.png" alt="Omnivus"></a>
+                    <a asp-controller="Home" asp-action="Index"><img src="~/user-assets/img/logo.png" alt="Wissen"></a>
                 </div>
             </div>
             <div class="header-right d-flex align-items-center justify-content-end">
@@ -12,24 +17,24 @@
                         <li class="current">
                             <a href="index.html">Home</a>
                             <ul class="submenu">
-                            <li><a href="index.html">Home 1</a></li>
-                            <li><a href="index-2.html">Home 2</a></li>
-                            <li><a href="index-3.html">Home 3</a></li>
-                            <li><a href="index-4.html">Home 4</a></li>
-                            <li><a href="index-5.html">Home 5</a></li>
-                            <li><a href="index-6.html">Home 6</a></li>
-                            <li>
-                                <a href="#">OnePage</a>
-                                <ul class="submenu">
-                                    <li><a href="index-onepage.html">Home 1</a></li>
-                                    <li><a href="index-2-onepage.html">Home 2</a></li>
-                                    <li><a href="index-3-onepage.html">Home 3</a></li>
-                                    <li><a href="index-4-onepage.html">Home 4</a></li>
-                                    <li><a href="index-5-onepage.html">Home 5</a></li>
-                                    <li><a href="index-6-onepage.html">Home 6</a></li>
-                                </ul>
-                            </li>
-                        </ul>
+                                <li><a href="index.html">Home 1</a></li>
+                                <li><a href="index-2.html">Home 2</a></li>
+                                <li><a href="index-3.html">Home 3</a></li>
+                                <li><a href="index-4.html">Home 4</a></li>
+                                <li><a href="index-5.html">Home 5</a></li>
+                                <li><a href="index-6.html">Home 6</a></li>
+                                <li>
+                                    <a href="#">OnePage</a>
+                                    <ul class="submenu">
+                                        <li><a href="index-onepage.html">Home 1</a></li>
+                                        <li><a href="index-2-onepage.html">Home 2</a></li>
+                                        <li><a href="index-3-onepage.html">Home 3</a></li>
+                                        <li><a href="index-4-onepage.html">Home 4</a></li>
+                                        <li><a href="index-5-onepage.html">Home 5</a></li>
+                                        <li><a href="index-6-onepage.html">Home 6</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
                         </li>
                         <li>
                             <a class="nav-link" href="about.html">About</a>
@@ -97,7 +102,26 @@
                         <span></span><span></span><span></span>
                     </div>
                     <div class="navbar-btn">
-                        <a href="#">Free Consulting <i class="fal fa-long-arrow-right"></i></a>
+                        @if (signInManager.IsSignedIn(Context.User))
+                        {
+                            <a asp-controller="Account" asp-action="Logout">Çıkış Yap <i class="fal fa-long-arrow-right"></i></a>
+
+                            @*var currentUser = userManager.FindByNameAsync(User.Identity.Name).Result;
+                            
+                            @if (userManager.IsInRoleAsync(currentUser, RoleNames.Admin).Result)
+                            {
+                                <a href="#">Admin Panel <i class="fal fa-long-arrow-right"></i></a>
+                            }*@
+
+                            @if (Context.User.IsInRole(RoleNames.Admin))
+                            {
+                                <a href="#">Admin Panel <i class="fal fa-long-arrow-right"></i></a>
+                            }
+                        }
+                        else
+                        {
+                            <a asp-controller="Account" asp-action="Login">Giriş Yap <i class="fal fa-long-arrow-right"></i></a>
+                        }
                     </div>
                 </div>
             </div>
