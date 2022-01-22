@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WebItProject.Data;
 using WebItProject.Models.Identity;
+using WebItProject.Services;
 
 namespace WebItProject
 {
@@ -55,6 +56,9 @@ namespace WebItProject
                 options.AccessDeniedPath = "/Account/AccessDenied";
                 options.SlidingExpiration = true;
             });
+
+            services.AddTransient<IEmailSender, EmailSender>();
+
             services.AddControllersWithViews();
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

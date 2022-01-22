@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebItProject.Models;
 using WebItProject.Models.Identity;
+using WebItProject.Services;
 using WebItProject.ViewModels;
 
 namespace WebItProject.Controllers
@@ -15,16 +16,19 @@ namespace WebItProject.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
+        private readonly IEmailSender _emailSender;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            RoleManager<ApplicationRole> roleManager           
+            RoleManager<ApplicationRole> roleManager,
+            IEmailSender emailSender          
             )
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
+            _emailSender = emailSender;
             CheckRoles();
         }
 
@@ -119,6 +123,12 @@ namespace WebItProject.Controllers
 
             if (result.Succeeded)
             {
+                await _emailSender.SendAsync(new EmailMessage()
+                {
+                    Contacts = new string[] { "cengiz0.cengiz1@gmail.com" },
+                    Body = $"{HttpContext.User.Identity.Name} Sisteme giriş yaptı!",
+                    Subject = $"Merhaba {HttpContext.User.Identity.Name}"
+                });
                 return RedirectToAction("Index", "Home");
             }
             else
