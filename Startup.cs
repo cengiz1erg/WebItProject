@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WebItProject.Data;
+using WebItProject.MapperProfiles;
 using WebItProject.Models.Identity;
 using WebItProject.Services;
 
@@ -56,6 +57,11 @@ namespace WebItProject
                 options.LoginPath = "/Account/Login";
                 options.AccessDeniedPath = "/Account/AccessDenied";
                 options.SlidingExpiration = true;
+            });
+
+            services.AddAutoMapper(options =>
+            {
+                options.AddProfile(typeof(AccountProfile));
             });
 
             services.AddTransient<IEmailSender, EmailSender>();

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -21,18 +22,21 @@ namespace WebItProject.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly IEmailSender _emailSender;
+        private readonly IMapper _mapper;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             RoleManager<ApplicationRole> roleManager,
-            IEmailSender emailSender          
+            IEmailSender emailSender,
+            IMapper mapper     
             )
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _emailSender = emailSender;
+            _mapper = mapper;
             CheckRoles();
         }
 
@@ -192,12 +196,13 @@ namespace WebItProject.Controllers
         public async Task<IActionResult> Profile()
         {
             var user = await _userManager.FindByIdAsync(HttpContext.GetUserId());
-            var model = new UserProfileViewModel()
-            {
-                Email = user.Email,
-                Name = user.Name,
-                Surname = user.Surname
-            };
+            // var model = new UserProfileViewModel()
+            // {
+            //     Email = user.Email,
+            //     Name = user.Name,
+            //     Surname = user.Surname
+            // };
+            var model = _mapper.Map<UserProfileViewModel>(user);
 
             return View(model);
         }
