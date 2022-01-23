@@ -59,8 +59,6 @@ namespace WebItProject.Services
             }
 
             InstallmentModel resultModel = _mapper.Map<InstallmentModel>(result.InstallmentDetails[0]);
-
-            System.Console.WriteLine();
             return resultModel;
         }
 
