@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WebItProject.Data;
+using WebItProject.Extensions;
 using WebItProject.MapperProfiles;
 using WebItProject.Models.Identity;
 using WebItProject.Services;
@@ -53,18 +54,13 @@ namespace WebItProject
             services.ConfigureApplicationCookie(options =>
             {
                 // Cookie settings
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
                 options.LoginPath = "/Account/Login";
                 options.AccessDeniedPath = "/Account/AccessDenied";
                 options.SlidingExpiration = true;
             });
 
-            services.AddAutoMapper(options =>
-            {
-                options.AddProfile(typeof(AccountProfile));
-            });
-
-            services.AddTransient<IEmailSender, EmailSender>();
+            services.AddApplicationServices(this.Configuration);
 
             services.AddControllersWithViews();
         }
