@@ -18,8 +18,8 @@ namespace WebItProject.Controllers
         {
 
             return View();
-        }
-
+        }      
+        
         //[Authorize]
         [HttpPost]
         public IActionResult CheckInstallment(string binNumber)
