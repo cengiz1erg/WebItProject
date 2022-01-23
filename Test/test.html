@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Test Sayfası</h1>
+    <script>
+        var Iyzipay = require('iyzipay');
+
+        var iyzipay = new Iyzipay({
+            apiKey: "sandbox-zCEECkYFMbaWcVq3d6O9bNfL4o4YJLxA",
+            secretKey: "sandbox-MNmiw8ZolOIILD2VBluaIluW5QI6UUWe",
+            uri: 'https://sandbox-api.iyzipay.com'
+        });
+
+        iyzipay.installmentInfo.retrieve({
+            locale: Iyzipay.LOCALE.TR,
+            conversationId: '123456789',
+            binNumber: '554960',
+            price: '100'
+        }, function (err, result) {
+            console.log(result);                
+        });
+    </script>
+</body>
+</html>
