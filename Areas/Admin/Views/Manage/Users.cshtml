@@ -1,0 +1,85 @@
+﻿@{
+    ViewBag.Title = "Kullanıcı Listesi";
+}
+<div class="container-fluid">
+    <!-- Page-Title -->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="page-title-box">
+                <div class="float-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="#">Metrica</a>
+                        </li><!--end nav-item-->
+                        <li class="breadcrumb-item">
+                            <a href="#">CRM</a>
+                        </li><!--end nav-item-->
+                        <li class="breadcrumb-item active">Users</li>
+                    </ol>
+                </div>
+                <h4 class="page-title">Contacts</h4>
+            </div><!--end page-title-box-->
+        </div><!--end col-->
+    </div>
+    <!-- end page title end breadcrumb -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h4 class="card-title">Kullanıcı Detayları</h4>
+                        </div><!--end col-->
+                    </div>  <!--end row-->
+                </div><!--end card-header-->
+                <div class="card-body">
+                    <div id="dxGrid"></div>
+                </div><!--end card-body-->
+            </div><!--end card-->
+        </div> <!--end col-->
+    </div><!--end row-->
+
+</div>
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/vendor/devextreme/dist/css/dx.light.css">
+
+}
+
+@section Scripts
+{
+    <script type="text/javascript" src="~/vendor/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="~/vendor/devextreme/dist/js/dx.all.js"></script>
+    <script>
+    $(()=> {
+        var userData = null;
+        $.ajax({
+            url: '@Url.Action("GetUsers", "UserApi")',
+            method: 'GET',
+            success: function(response) {
+                console.log(response);
+                if (response.isSuccess) {
+                    userData = response.data;
+                    loadGrid();
+                } else {
+                    alert(response.errorMessage);
+                }
+            },
+            error:function(a, b, c) {
+                console.log(a);
+                console.log(b);
+                console.log(c);
+            }
+        });
+        function loadGrid() {
+            $('#dxGrid').dxDataGrid({
+                dataSource: userData,
+                columns: ['name', 'surname', 'email', 'userName'],
+                showBorders: true,
+            });
+        }
+    })
+    </script>
+
+}
