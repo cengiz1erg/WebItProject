@@ -180,7 +180,7 @@ namespace WebItProject.Controllers
                 //     Body = $"{HttpContext.User.Identity.Name} Sisteme giriş yaptı!",
                 //     Subject = $"Merhaba {HttpContext.User.Identity.Name}"
                 // });
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home", new { area = "" });
             }
             else
             {
