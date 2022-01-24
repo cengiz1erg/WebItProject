@@ -53,10 +53,9 @@ namespace WebItProject.Services
                 Currency = Currency.TRY.ToString(),
                 BasketId = StringHelpers.GenerateUniqueCode(),
                 PaymentChannel = PaymentChannel.WEB.ToString(),
-                PaymentGroup = PaymentGroup.SUBSCRIPTION.ToString()
-            };
-
-            paymentRequest.PaymentCard = _mapper.Map<PaymentCard>(model.CardModel);
+                PaymentGroup = PaymentGroup.SUBSCRIPTION.ToString(),
+                PaymentCard = _mapper.Map<PaymentCard>(model.CardModel)
+        };
 
             var user = _userManager.FindByIdAsync(model.UserId).Result;
 
