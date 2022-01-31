@@ -1,10 +1,12 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace WebItProject.Models.Entities
+namespace WebItProject.ViewModels
 {
-    public class SubscriptionType: BaseEntity
+    public class SubscriptionTypeViewModel
     {
-        [Required, StringLength(50)]
         public string Name { get; set; }
         public string Description { get; set; }
         public int Month { get; set; }

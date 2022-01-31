@@ -12,7 +12,24 @@ namespace WebItProject.Data
         {
             
         }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            builder.Entity<SubscriptionType>()
+                .Property(x => x.Price)
+                .HasPrecision(8, 2);
 
+            base.OnModelCreating(builder);
+            builder.Entity<Subscription>()
+                .Property(x => x.Amount)
+                .HasPrecision(8, 2);
+
+            base.OnModelCreating(builder);
+            builder.Entity<Subscription>()
+                .Property(x => x.PaidAmount)
+                .HasPrecision(8, 2);
+
+        }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<City> Cities { get; set; }
         public DbSet<State> States { get; set; }

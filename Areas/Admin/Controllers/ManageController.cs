@@ -24,5 +24,10 @@ namespace WebItProject.Areas.Admin.Controllers
         {
             return View();
         }
+
+        public IActionResult Subscriptions()
+        {
+            return View();
+        }
     }
 }

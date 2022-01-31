@@ -1,4 +1,6 @@
-﻿@{
+﻿@model List<SubscriptionTypeViewModel>
+
+@{
     ViewBag.Title = "Ana Sayfa";
 }
 
@@ -62,3 +64,5 @@
         </div>
     </div>
 </section>
+
+<partial name="Partials/_PricePartial" model="Model" />

@@ -18,14 +18,15 @@ namespace WebItProject.Controllers
             _paymentService = paymentService;
         }
 
-        //[Authorize]
+        [HttpGet]
+        [Authorize]
         public IActionResult Index()
         {
 
             return View();
         }      
 
-        //[Authorize]
+        [Authorize]
         [HttpPost]
         public IActionResult CheckInstallment(string binNumber)
         {
