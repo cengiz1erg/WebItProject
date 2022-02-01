@@ -1,7 +1,12 @@
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using AutoMapper;
+using Iyzipay.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WebItProject.Data;
 using WebItProject.Extensions;
 using WebItProject.Models.Payment;
 using WebItProject.Services;
@@ -11,18 +16,21 @@ namespace WebItProject.Controllers
 {
     public class PaymentController: Controller
     {
+        private readonly MyContext _dbContext;
         private readonly IPaymentService _paymentService;
+        private readonly IMapper _mapper;
 
-        public PaymentController(IPaymentService paymentService)
+        public PaymentController(IPaymentService paymentService, MyContext dbContext, IMapper mapper)
         {
+            _dbContext = dbContext;
             _paymentService = paymentService;
+            _mapper = mapper;
         }
 
         [HttpGet]
         [Authorize]
         public IActionResult Index()
         {
-
             return View();
         }      
 
@@ -73,6 +81,34 @@ namespace WebItProject.Controllers
             paymentModel.PaidPrice = decimal.Parse(installmentNumber != null ? installmentNumber.TotalPrice : installmentInfo.InstallmentPrices[0].TotalPrice);
 
             var result = _paymentService.Pay(paymentModel);
+            return View();
+        }
+
+        [Authorize]
+        public IActionResult Purchase(Guid id)
+        {
+            var data = _dbContext.SubscriptionTypes.Find(id);
+            if (data == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            var model = _mapper.Map<SubscriptionTypeViewModel>(data);
+
+            ViewBag.Subs = model;
+
+            //var model = new PaymentViewModel()
+            //{
+            //    BasketModel = new BasketModel
+            //    {
+            //        Category1 = data.Name,
+            //        ItemType = BasketItemType.VIRTUAL.ToString(),
+            //        Id = data.Id.ToString(),
+            //        Name = data.Name,
+            //        Price = data.Price.ToString(new CultureInfo("en-us"))
+            //    }
+            //};
+
             return View();
         }
     }
