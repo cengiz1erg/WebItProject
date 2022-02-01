@@ -65,4 +65,6 @@
     </div>
 </section>
 
-<partial name="Partials/_PricePartial" model="Model" />
+@*<partial name="Partials/_PricePartial" model="Model" />*@ 
+
+@await Component.InvokeAsync("PricingTable")
