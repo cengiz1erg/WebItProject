@@ -13,7 +13,7 @@ namespace WebItProject.MapperProfiles
         public SubscriptionProfiles()
         {
             CreateMap<SubscriptionType, SubscriptionTypeViewModel>().ReverseMap();
-        }
-        
+            CreateMap<Address, AddressViewModel>().ReverseMap();
+        }       
     }
 }

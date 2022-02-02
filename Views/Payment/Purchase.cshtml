@@ -9,15 +9,32 @@
 <!--====== Shoping Checkout Start  ======-->
 <section class="shoping-checkout-area section-gap">
     <div class="container">
-        <h3 class="title">@ViewBag.Subs.Name</h3>
+        <h3 class="title">@if (ViewBag.Subs != null) @ViewBag.Subs.Name</h3>
         <ul class="breadcrumb-nav">
-            <li>@($"{ViewBag.Subs.Price:0.00} TL")</li>
+            <li>@if (ViewBag.Subs != null) @($"{ViewBag.Subs.Price:0.00} TL")</li>
         </ul>
         <div class="user-actions mb-40">
             <div asp-validation-summary="All" class="text-danger"></div>
         </div>
-        <form asp-action="Index" method="post">
+        <form asp-action="Purchase" method="post">
             <input asp-for="Installment" type="hidden" id="hdInstallment" value="1" />
+            <input type="hidden" name="Amount" id="Amount" value="@if (ViewBag.Subs != null) @ViewBag.Subs.Price.ToString(new CultureInfo("en-US"))" />
+            <input type="hidden" asp-for="BasketModel.Id" />
+            <div class="row">
+                <div class="col-md-12">
+                    @{
+                        if (ViewBag.Addresses != null)
+                        {
+                            <select asp-for="AddressModel.Id">
+                                @foreach (AddressViewModel item in ViewBag.Addresses)
+                                {
+                                    <option value="@item.Id">@item.Line</option>
+                                }
+                            </select>
+                        }
+                    }
+                </div>
+            </div>
             <div class="row">
                 <div class="col-lg-6">
                     <div class="billing-details">
@@ -94,12 +111,13 @@
     $(document).ready(function() {
         console.log("Jquery OK");
     });
-    $("#txtCardNumber").keyup(function() {
+    $("#txtCardNumber").blur(function() {
         var bin = $(this).val();
-        if (bin.length = 6) {
+        if (bin.length >= 6 && bin.length <= 16) {
             console.log(bin);
             var model = {
-                binNumber: bin
+                binNumber: bin,
+                price: @if (ViewBag.Subs != null) @ViewBag.Subs.Price.ToString(new CultureInfo("en-US"))
             };
             $.ajax({
                 url: '@Url.Action("CheckInstallment", "Payment")',
